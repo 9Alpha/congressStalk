@@ -20,6 +20,17 @@ app.get('/', function(req, res){
 	res.send(content);
 });
 
+app.get('/getNames', function(req, res) {
+	db.all('SELECT name FROM user', function(err, rows){
+		if(err){
+			console.log(err);
+		} else {
+			console.log(rows);
+			res.send(rows);
+		}
+	});
+});
+
 app.post('/createAccount', function(req, res) {
 	db.run("INSERT INTO user (name) VALUES (?)",
 		req.body,
