@@ -7,3 +7,9 @@ $("#createButton").on('click', function (e) {
 		data: $('#userNameInput').text()
 	});
 });
+
+$("loginButton").on('click', function (e){
+	$.ajax({
+
+	});
+});

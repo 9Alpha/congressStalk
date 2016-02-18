@@ -1,9 +1,12 @@
 #login {
 	width: 40%;
 	margin-left: 30%;
+	background-color: #fffff5; 
 }
 
 #innerLogin {
+	background-color: #fffff5;
 	width: 50%;
 	margin-left: 25%;
 }
+
