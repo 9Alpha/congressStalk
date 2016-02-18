@@ -32,6 +32,7 @@ app.get('/getNames', function(req, res) {
 });
 
 app.post('/createAccount', function(req, res) {
+	console.log(req.body);
 	db.run("INSERT INTO user (name) VALUES (?)",
 		req.body,
 		function(err) {if (err) { throw err;}
@@ -41,6 +42,7 @@ app.post('/createAccount', function(req, res) {
 			} else {
 				console.log('********USER TABLE**********');
 				console.log(rows); 
+				res.send("done");
 			}
 		});
 

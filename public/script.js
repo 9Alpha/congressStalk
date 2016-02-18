@@ -10,7 +10,8 @@ $("#createButton").on('click', function (e) {
 		$.ajax({
 			url: 'createAccount',
 			type: 'POST',
-			data: $('#userNameInput').val()
+			data: $('#userNameInput').val(),
+			contentType: "application/json",
 		});
 	});
 });
@@ -21,9 +22,6 @@ $("loginButton").on('click', function (e){
 		url: 'login',
 		type: 'POST',
 		data: $('#userNameInput').text()
-
-	$.getJSON('/login', function(data) {
-
 
 	});
 });
