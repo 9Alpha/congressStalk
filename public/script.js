@@ -10,6 +10,8 @@ $("#createButton").on('click', function (e) {
 
 $("loginButton").on('click', function (e){
 	$.ajax({
-
+		url: 'login',
+		type: 'POST',
+		data: $('#userNameInput').text()
 	});
 });
