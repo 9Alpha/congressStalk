@@ -1,0 +1,26 @@
+{
+  "name": "congstoc",
+  "version": "1.0.0",
+  "description": "It's a thing",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/9Alpha/congressStalk.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/9Alpha/congressStalk/issues"
+  },
+  "homepage": "https://github.com/9Alpha/congressStalk#readme",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "fs": "0.0.2",
+    "path": "^0.12.7"
+  }
+}
