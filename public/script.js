@@ -1,5 +1,3 @@
-
-
 var usrLegs;
 var usrBills;
 
@@ -10,8 +8,8 @@ $("#createButton").on('click', function (e) {
 		$.ajax({
 			url: '/createAccount',
 			type: 'POST',
-			data: $('#userNameInput').val(),
-			contentType: "application/json",
+			data: "{"+$('#userNameInput').val()+"}",
+			contentType: "application/json"
 		});
 	});
 });

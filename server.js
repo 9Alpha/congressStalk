@@ -32,7 +32,7 @@ app.get('/getNames', function(req, res) {
 });
 
 app.post('/createAccount', function(req, res) {
-	console.log(JSON.stringify(req.body));
+	console.log(JSON.parse(JSON.stringify(req)));
 	db.run("INSERT INTO user (name) VALUES (?)",
 		"Max",
 		function(err) {if (err) { throw err;}
