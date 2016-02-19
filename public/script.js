@@ -1,5 +1,3 @@
-
-
 var usrLegs;
 var usrBills;
 
