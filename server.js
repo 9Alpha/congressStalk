@@ -32,9 +32,9 @@ app.get('/getNames', function(req, res) {
 });
 
 app.post('/createAccount', function(req, res) {
-	console.log(req.body);
+	console.log(JSON.stringify(req.body));
 	db.run("INSERT INTO user (name) VALUES (?)",
-		req.body,
+		"Max",
 		function(err) {if (err) { throw err;}
 		db.all('SELECT * FROM user', function(err, rows){
 			if(err){
