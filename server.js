@@ -20,32 +20,49 @@ app.get('/', function(req, res){
 	res.send(content);
 });
 
-app.get('/getNames', function(req, res) {
-	db.all('SELECT name FROM user', function(err, rows){
+
+app.post('/createAccount', function(req, res) {
+	var isFalse = false;
+	db.all('SELECT name FROM User', function(err, rows){
 		if(err){
 			console.log(err);
 		} else {
-			console.log(rows);
-			res.send(rows);
+			console.log(req.body.info);
+			var temp = req.body.info;
+			for (var i = 0; i < rows.length; i++) {
+				if (rows[i].name === temp) {
+					isFalse = true;
+					res.send(false);
+					break;
+				}
+			}
+			if (!isFalse) {
+				db.run("INSERT INTO User (name) VALUES (?)",
+					temp,
+					function(err) {if (err) { throw err;}
+					db.all('SELECT id FROM User WHERE name = ?', temp, function(err, rows){
+						if(err){
+							console.log(err);
+						} else {
+							console.log('********USER ID**********');
+							console.log(rows); 
+							res.send(rows);
+						}
+					});
+
+				});
+			}
 		}
 	});
 });
 
-app.post('/createAccount', function(req, res) {
-	console.log(JSON.parse(JSON.stringify(req)));
-	db.run("INSERT INTO user (name) VALUES (?)",
-		"Max",
-		function(err) {if (err) { throw err;}
-		db.all('SELECT * FROM user', function(err, rows){
-			if(err){
-				console.log(err);
-			} else {
-				console.log('********USER TABLE**********');
-				console.log(rows); 
-				res.send("done");
-			}
-		});
-
+app.get('/login', function (req, res) {
+	db.all('SELECT * FROM User WHERE name = ?', req.body.info, function(err, rows){
+		if(err){
+			console.log(err);
+		} else {
+			res.send(rows);
+		}
 	});
 });
 
