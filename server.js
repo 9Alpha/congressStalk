@@ -21,13 +21,14 @@ app.get('/', function(req, res){
 });
 
 
-app.post('/createAccount', function(req, res) {
+app.post('/createAccount', function (req, res) {
 	var isFalse = false;
 	db.all('SELECT name FROM User', function(err, rows){
 		if(err){
 			console.log(err);
 		} else {
-			console.log(req.body.info);
+			console.log('********USER NAMES**********');
+			console.log(rows); 
 			var temp = req.body.info;
 			for (var i = 0; i < rows.length; i++) {
 				if (rows[i].name === temp) {
@@ -40,13 +41,13 @@ app.post('/createAccount', function(req, res) {
 				db.run("INSERT INTO User (name) VALUES (?)",
 					temp,
 					function(err) {if (err) { throw err;}
-					db.all('SELECT id FROM User WHERE name = ?', temp, function(err, rows){
+					db.all('SELECT id FROM User WHERE name = ?', temp, function(err, rows2){
 						if(err){
 							console.log(err);
 						} else {
 							console.log('********USER ID**********');
-							console.log(rows); 
-							res.send(rows);
+							console.log(rows2); 
+							res.send(rows2);
 						}
 					});
 
@@ -56,7 +57,7 @@ app.post('/createAccount', function(req, res) {
 	});
 });
 
-app.get('/login', function (req, res) {
+app.post('/login', function (req, res) {
 	db.all('SELECT * FROM User WHERE name = ?', req.body.info, function(err, rows){
 		if(err){
 			console.log(err);
