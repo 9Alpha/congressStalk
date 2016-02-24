@@ -1,40 +1,47 @@
 	
-	<html>
+<html>
 
-	<head>
-		<title> Congress Stalker </title>
-		<link rel="stylesheet" type="text/css" href="public/styles.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-	</head>
-	
-	<body>
-		<br><br>
-		<div id="login" class="center">
-			<h1 align = "center"> Congress Stalker: </h1>
-			<h2 align = "center"> Where you fulfill all of your twisted fantasies... </h2>
+<head>
+	<title> Congress Stalker </title>
+	<link rel="stylesheet" type="text/css" href="public/styles.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+</head>
 
-			<div id="innerLogin">
-				<input type="text" id="userNameInput" name="userid" placeholder="Name...">
-				<br><br>
-				<input id="createButton" class="btn btn-sm" type="button" value="Create Account">
-				<input id="loginButton" class="btn btn-sm" type="button" value="Login">
-			</div>
+<body>
+	<div id="loginPage">
+		<h1> Congress Stalker: </h1>
+		<h2> Where you fulfill all of your twisted fantasies... </h2>
 
-			<br><br><br>
-
-			<div id="search">
-				<input type="text" id="searchInput" name="search" placeholder="Search...">
-				<br><br>
-				<input id="searchButton" class="btn btn-sm" type="button" value="Go">
-			</div>
-			<p id="responseText"></p>
+		<div id="innerLogin">
+			<input type="text" id="userNameInput" name="userid" placeholder="Name...">
+			<br><br>
+			<input id="createButton" class="btn btn-sm" type="button" value="Create Account">
+			<input id="loginButton" class="btn btn-sm" type="button" value="Login">
 		</div>
 
+	</div>
+	<div id="homePage">
+		<h1 id="HomeHello">Bibidy Ba</h1>
 
-		<script src="public/jquery-1.12.0.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-		<script src="public/script.js"></script>
+		<ul id="legList"></ul>
+		<ul id="billList"></ul>
+	</div>
+	<div id="searchPage">
+		
 
-	</body>
+		<div id="search">
+			<input type="text" id="searchInput" name="search" placeholder="Search...">
+			<br><br>
+			<input id="searchButton" class="btn btn-sm" type="button" value="Go">
+		</div>
+		<p id="responseText"></p>
+	</div>
 
-	</html>
+
+	<script src="public/jquery-1.12.0.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<script src="public/script.js"></script>
+
+</body>
+
+</html>

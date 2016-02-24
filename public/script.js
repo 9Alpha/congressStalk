@@ -4,6 +4,13 @@ var usrBills;
 var currentID;
 
 
+$(document).ready(function (e) {
+	//$("#secondElementId").offset({ top: offset.top, left: offset.left})
+	$('#searchPage').hide();
+	$('#homePage').hide();
+});
+
+
 $("#createButton").on('click', function (e) {
 	if ($('#userNameInput').val() === "") {
 		console.log("no name");
@@ -24,6 +31,8 @@ $("#createButton").on('click', function (e) {
 			} else {
 				currentID = JSON.parse(data.responseText)[0].id;
 				console.log(currentID);
+				$('#homePage').show();
+				$('#loginPage').hide();
 			}
 		}
 	});
@@ -45,6 +54,9 @@ $("#loginButton").on('click', function (e){
 			} else {
 				currentID = JSON.parse(data.responseText)[0].id;
 				console.log(currentID);
+				$('#HomeHello').text('Hey '+$('#userNameInput').val());
+				$('#homePage').show();
+				$('#loginPage').hide();
 			}
 		}
 	});
