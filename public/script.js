@@ -31,6 +31,7 @@ $("#createButton").on('click', function (e) {
 			} else {
 				currentID = JSON.parse(data.responseText)[0].id;
 				console.log(currentID);
+				$('#HomeHello').text('Hey '+$('#userNameInput').val());
 				$('#homePage').show();
 				$('#loginPage').hide();
 			}
@@ -62,6 +63,12 @@ $("#loginButton").on('click', function (e){
 	});
 });
 
+$("#toSearch").on('click', function (e) {
+	$('#homePage').hide();
+	$('#loginPage').hide();
+	$('#searchPage').show();
+});
+
 $("#searchButton").on('click', function (e) {
 	if (currentID === undefined) {
 		alert("Not logged in");
@@ -69,7 +76,7 @@ $("#searchButton").on('click', function (e) {
 		if ($("#searchInput").val() !== "") {
 			console.log("searching for ->"+$("#searchInput").val()+"<- with id ->"+currentID+"<-");
 			$.ajax({
-				url: 'https://congress.api.sunlightfoundation.com/legislators?last_name='+$("#searchInput").val()+'&apikey=92c8cc16175542298052d24ae42371b8',
+				url: 'https://congress.api.sunlightfoundation.com/legislators/locate?zip='+$("#searchInput").val()+'&apikey=92c8cc16175542298052d24ae42371b8',
 				type: 'GET',
 				complete: function (data) {
 					var temp = JSON.parse(data.responseText);
