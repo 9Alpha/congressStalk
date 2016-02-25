@@ -67,5 +67,47 @@ app.post('/login', function (req, res) {
 	});
 });
 
+app.get('/getLegs/:id', function (req, res) {
+	db.all('SELECT legsID FROM legsForUser WHERE userID = ?', req.params.id, function(err, rows){
+		if(err){
+			console.log(err);
+		} else {
+			var temp = [];
+			var data = JSON.parse(rows);
+			for (var i = 0; i < data.length; i++) {
+				db.all('SELECT * FROM Legislators WHERE id = ?', data[i].legsID, function(err, rows){
+					if(err){
+						console.log(err);
+					} else {
+						temp.push(rows);
+					}
+				});
+			}
+			res.send(temp);
+		}
+	});
+});
+
+app.get('/getBills/:id', function (req, res) {
+	db.all('SELECT billsID FROM billsForUser WHERE userID = ?', req.params.id, function(err, rows){
+		if(err){
+			console.log(err);
+		} else {
+			var temp = [];
+			var data = JSON.parse(rows);
+			for (var i = 0; i < data.length; i++) {
+				db.all('SELECT * FROM Bills WHERE id = ?', data[i].legsID, function(err, rows){
+					if(err){
+						console.log(err);
+					} else {
+						temp.push(rows);
+					}
+				});
+			}
+			res.send(temp);
+		}
+	});
+});
+
 app.listen(process.env.PORT || 5000);
 
