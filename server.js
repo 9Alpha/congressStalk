@@ -109,5 +109,25 @@ app.get('/getBills/:id', function (req, res) {
 	});
 });
 
+app.post('/addLegs/:id', function (req, res) {
+	db.run('INSERT INTO legsForUser (userID, legsID) VALUES (?, ?)', req.params.id, req.body.info, function (err) {
+		if(err){
+			console.log(err);
+		} else {
+			res.send("added");
+		}
+	});
+});
+
+app.post('/addBills/:id', function (req, res) {
+	db.run('INSERT INTO billsForUser (userID, billsID) VALUES (?, ?)', req.params.id, req.body.info, function (err) {
+		if(err){
+			console.log(err);
+		} else {
+			res.send("added");
+		}
+	});
+});
+
 app.listen(process.env.PORT || 5000);
 
