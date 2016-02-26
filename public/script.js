@@ -58,6 +58,7 @@ $("#loginButton").on('click', function (e){
 				$('#HomeHello').text('Hey '+$('#userNameInput').val());
 				$('#homePage').show();
 				$('#loginPage').hide();
+				$('#Something That Makes Sense').get(0).reset();
 			}
 		}
 	});
@@ -80,7 +81,6 @@ $("#logOut").on('click', function (e) {
 	$('#loginPage').show();
 	$('#searchPage').hide();
 	currentID = -1; 
-	$('#Something That Makes Sense').reset();
 });
 
 
