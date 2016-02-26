@@ -69,6 +69,12 @@ $("#toSearch").on('click', function (e) {
 	$('#searchPage').show();
 });
 
+$("#goHome").on('click', function (e) {
+	$('#homePage').show();
+	$('#loginPage').hide();
+	$('#searchPage').hide();
+});
+
 $("#searchButton").on('click', function (e) {
 	if (currentID === undefined) {
 		alert("Not logged in");
