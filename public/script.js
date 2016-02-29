@@ -99,13 +99,13 @@ $("#searchButton").on('click', function (e) {
 					for (var i = 0; i < temp.results.length; i++) {
 						var color = "";
 						if (temp.results[i].party === "R") {
-							color = "color:red;";
+							color = "red";
 						} else if (temp.results[i].party === "D") {
-							color = "color:blue;";
+							color = "blue";
 						} else {
-							color = "color:green;"
+							color = "green"
 						}
-						forExp += "<tr><td>"+temp.results[i].title+". "+temp.results[i].first_name+" "+temp.results[i].last_name+"</td><td>"+temp.results[i].party+"</td><td style="+color+">"+temp.results[i].twitter_id+"</td></tr>";
+						forExp += "<tr><td><a id=\"legPage\">"+temp.results[i].title+". "+temp.results[i].first_name+" "+temp.results[i].last_name+"</a></td><td>"+temp.results[i].party+"</td><td><a id=\""+color+"\" href=\"https://twitter.com/"+temp.results[i].twitter_id+"\" target=\"_blank\">"+temp.results[i].twitter_id+"</a></td></tr>";
 					}
 					$('#responseText').html(forExp);
 				}
