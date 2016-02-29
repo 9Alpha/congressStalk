@@ -58,7 +58,7 @@ $("#loginButton").on('click', function (e){
 				$('#HomeHello').text('Hey '+$('#userNameInput').val());
 				$('#homePage').show();
 				$('#loginPage').hide();
-				$('#Something That Makes Sense').get(0).reset();
+				document.getElementById("Thing").reset();
 			}
 		}
 	});
@@ -95,11 +95,19 @@ $("#searchButton").on('click', function (e) {
 				type: 'GET',
 				complete: function (data) {
 					var temp = JSON.parse(data.responseText);
-					var forExp = "";
+					var forExp = "<tr><th>Name</th><th>Party</th><th>Twitter</th></tr>";
 					for (var i = 0; i < temp.results.length; i++) {
-						forExp += "Name: "+temp.results[i].first_name+" "+temp.results[i].last_name+" --- Party: "+temp.results[i].party+" --- Twitter Handle: "+temp.results[i].twitter_id;
+						var color = "";
+						if (temp.results[i].party === "R") {
+							color = "color:red;";
+						} else if (temp.results[i].party === "D") {
+							color = "color:blue;";
+						} else {
+							color = "color:green;"
+						}
+						forExp += "<tr><td>"+temp.results[i].title+". "+temp.results[i].first_name+" "+temp.results[i].last_name+"</td><td>"+temp.results[i].party+"</td><td style="+color+">"+temp.results[i].twitter_id+"</td></tr>";
 					}
-					$('#responseText').text(forExp);
+					$('#responseText').html(forExp);
 				}
 			});
 		} else {
