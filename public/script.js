@@ -59,6 +59,7 @@ $("#loginButton").on('click', function (e){
 				$('#homePage').show();
 				$('#loginPage').hide();
 				document.getElementById("Thing").reset();
+				document.getElementById("OtherThing").reset();
 			}
 		}
 	});
@@ -74,6 +75,7 @@ $("#goHome").on('click', function (e) {
 	$('#homePage').show();
 	$('#loginPage').hide();
 	$('#searchPage').hide();
+	document.getElementById("OtherThing").reset();
 });
 
 $("#logOut").on('click', function (e) {
