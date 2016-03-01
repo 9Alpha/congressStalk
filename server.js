@@ -70,14 +70,14 @@ app.post('/login', function (req, res) {
 app.get('/getLegs/:id', function (req, res) {
 	db.all('SELECT legsID FROM legsForUser WHERE userID = ?', req.params.id, function(err, rows){
 		if(err){
-			console.log(err);
+			console.log("-->getLegs<--------"+err);
 		} else {
 			var temp = [];
 			var data = JSON.parse(rows);
 			for (var i = 0; i < data.length; i++) {
 				db.all('SELECT * FROM Legislators WHERE id = ?', data[i].legsID, function(err, rows){
 					if(err){
-						console.log(err);
+						console.log("-->getLegs<--------"+err);
 					} else {
 						temp.push(rows);
 					}
@@ -91,14 +91,14 @@ app.get('/getLegs/:id', function (req, res) {
 app.get('/getBills/:id', function (req, res) {
 	db.all('SELECT billsID FROM billsForUser WHERE userID = ?', req.params.id, function(err, rows){
 		if(err){
-			console.log(err);
+			console.log("-->getBills<--------"+err);
 		} else {
 			var temp = [];
 			var data = JSON.parse(rows);
 			for (var i = 0; i < data.length; i++) {
 				db.all('SELECT * FROM Bills WHERE id = ?', data[i].legsID, function(err, rows){
 					if(err){
-						console.log(err);
+						console.log("-->getBills<--------"+err);
 					} else {
 						temp.push(rows);
 					}
@@ -110,11 +110,36 @@ app.get('/getBills/:id', function (req, res) {
 });
 
 app.post('/addLegs/:id', function (req, res) {
-	db.run('INSERT INTO legsForUser (userID, legsID) VALUES (?, ?)', req.params.id, req.body.info, function (err) {
-		if(err){
-			console.log(err);
+	db.all('SELECT * FROM Legislators WHERE name = ?', req.body.name, function(err, rows){
+		var data = JSON.parse(rows);
+		if (data.length > 0) {
+			db.run('INSERT INTO legsForUser (userID, legsID) VALUES (?, ?)', req.params.id, data[0].id, function (err) {
+				if(err){
+					console.log("-->addLegs<--------"+err);
+				} else {
+					res.send("added");
+				}
+			});
 		} else {
-			res.send("added");
+			db.run('INSERT INTO Legislators (name, twitter, party) VALUES (?, ?, ?)', req.body.name, req.body.twitter, req.body.party, function (err) {
+				if(err){
+					console.log("-->addLegs<--------"+err);
+				} else {
+					db.all('SELECT * FROM Legislators WHERE name = ?', req.body.name, function(err, rows2){
+						if(err){
+							console.log("-->addLegs<--------"+err);
+						} else {
+							db.run('INSERT INTO legsForUser (userID, legsID) VALUES (?, ?)', req.params.id, JSON.parse(rows2)[0].id, function (err) {
+								if(err){
+									console.log("-->addLegs<--------"+err);
+								} else {
+									res.send(rows2);
+								}
+							});
+						}
+					});
+				}
+			});
 		}
 	});
 });
@@ -122,7 +147,7 @@ app.post('/addLegs/:id', function (req, res) {
 app.post('/addBills/:id', function (req, res) {
 	db.run('INSERT INTO billsForUser (userID, billsID) VALUES (?, ?)', req.params.id, req.body.info, function (err) {
 		if(err){
-			console.log(err);
+			console.log("-->addBills<--------"+err);
 		} else {
 			res.send("added");
 		}

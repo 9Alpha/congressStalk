@@ -105,7 +105,7 @@ $("#searchButton").on('click', function (e) {
 						} else {
 							color = "green"
 						}
-						forExp += "<tr><td><a id=\"legPage\">"+temp.results[i].title+". "+temp.results[i].first_name+" "+temp.results[i].last_name+"</a></td><td>"+temp.results[i].party+"</td><td><a id=\""+color+"\" href=\"https://twitter.com/"+temp.results[i].twitter_id+"\" target=\"_blank\">"+temp.results[i].twitter_id+"</a></td></tr>";
+						forExp += "<tr><td><a id=\"legPage\">"+temp.results[i].title+". "+temp.results[i].first_name+" "+temp.results[i].last_name+"</a></td><td>"+temp.results[i].party+"</td><td><a id=\""+color+"\" href=\"https://twitter.com/"+temp.results[i].twitter_id+"\" target=\"_blank\">"+temp.results[i].twitter_id+"</a></td><td><input type=\"button\" value=\"Add Legislator\" class=\"btn btn-sm btn-success\" fore=\"add\" id=\"{name:"+temp.results[i].title+". "+temp.results[i].first_name+" "+temp.results[i].last_name+",twitter:"+temp.results[i].twitter_id+",party:"+temp.results[i].party+"}\"></tr>";
 					}
 					$('#responseText').html(forExp);
 				}
@@ -113,5 +113,31 @@ $("#searchButton").on('click', function (e) {
 		} else {
 			alert("Empty search box");
 		}
+	}
+});
+
+$('#responseText').on('click', function(e) {
+	if (e.target.localName === "input") {
+		var data = JSON.parse(e.target.id);
+		var temp = {
+			"name": data.name,
+			"twitter": data.twitter,
+			"party": data.party
+		};
+		$.ajax({
+			url: '/addLegs/'+currentID,
+			type: 'POST', 
+			data: JSON.stringify(temp),
+			contentType: "application/json",
+			complete: function (data) {
+				$.ajax({
+					url: '/getLegs/'+currentID,
+					type: 'GET',
+					complete: function (data) {
+						console.log(data);
+					}
+				});
+			}
+		});
 	}
 });
