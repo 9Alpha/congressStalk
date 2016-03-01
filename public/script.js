@@ -85,6 +85,10 @@ $("#logOut").on('click', function (e) {
 	currentID = -1; 
 });
 
+$('#OtherThing').on('submit', function(e) {
+	e.preventDefault();
+});
+
 
 $("#searchButton").on('click', function (e) {
 	if (currentID === undefined) {
@@ -139,7 +143,7 @@ $('#responseText').on('click', function(e) {
 					url: '/getLegs/'+currentID,
 					type: 'GET',
 					complete: function (data) {
-						console.log(data);
+						console.log(data.responseText);
 					}
 				});
 			}
