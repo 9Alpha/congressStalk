@@ -112,6 +112,7 @@ app.get('/getBills/:id', function (req, res) {
 app.post('/addLegs/:id', function (req, res) {
 	db.all('SELECT * FROM Legislators WHERE name = ?', req.body.name, function(err, rows){
 		var data = JSON.parse(rows);
+		console.log(data);
 		if (data.length > 0) {
 			db.run('INSERT INTO legsForUser (userID, legsID) VALUES (?, ?)', req.params.id, data[0].id, function (err) {
 				if(err){
