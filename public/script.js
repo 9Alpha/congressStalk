@@ -150,7 +150,40 @@ $('#homeText').on('click', function(e) {
 				fillHome();
 			}
 		});
-	}
+	} else if (e.target.className === "legPage") {
+		var data = JSON.parse($('#'+e.target.id).data('key'));
+		var temp = {
+			"name": data.name,
+			"twitter": data.twitter,
+			"party": data.party
+		};
+		$('#homePage').hide();
+		$('#billsPage').show();
+		$('#nameOfLeg').text("The Bills of "+temp.name);
+		$.ajax({
+			url: 'https://congress.api.sunlightfoundation.com/legislators?twitter_id='+temp.twitter+'&party='+temp.party+'&apikey=92c8cc16175542298052d24ae42371b8',
+			type: 'GET',
+			complete: function (f) {
+				bioID = JSON.parse(f.responseText).results[0].bioguide_id;
+				$.ajax({
+					url: 'https://congress.api.sunlightfoundation.com/bills?sponsor_id='+bioID+'&apikey=92c8cc16175542298052d24ae42371b8',
+					type: 'GET',
+					complete: function (data) {
+						var temp2 = JSON.parse(data.responseText);
+						var forExp = "<tr><th>Official Bill Title</th><th>Co-Sponsor</th></tr>";
+						for (var i = 0; i < temp2.results.length; i++) {
+							forExp += "<tr><td id=\"billName"+i+"\" class=\"bill\">"+temp2.results[i].official_title+"</td><td>"+temp2.results[i].cosponsors_count+"</td><td><input type=\"button\" value=\"Add Bill\" class=\"btn btn-sm btn-info\" fore=\"add\" id=\"buttonBA"+i+"\"></tr>";
+						}
+						$('#billsText').html(forExp);
+						for (var i = 0; i < temp2.results.length; i++) {
+							$('#buttonBA'+i).data('key', "{\"name\":\""+temp2.results[i].official_title+"\",\"cosponsors\":\""+temp2.results[i].cosponsors_count+"\"}");
+						}
+					}
+				});
+			}
+		});
+
+}
 });
 
 $('#responseText').on('click', function(e) {
@@ -199,21 +232,28 @@ $('#responseText').on('click', function(e) {
 		$('#billsPage').show();
 		$('#nameOfLeg').text("The Bills of "+temp.name);
 		$.ajax({
-			url: 'https://congress.api.sunlightfoundation.com/bills?sponsor_id=R000053&apikey=92c8cc16175542298052d24ae42371b8',
+			url: 'https://congress.api.sunlightfoundation.com/legislators?twitter_id='+temp.twitter+'&party='+temp.party+'&apikey=92c8cc16175542298052d24ae42371b8',
 			type: 'GET',
-			complete: function (data) {
-				var temp = JSON.parse(data.responseText);
-				var forExp = "<tr><th>Official Bill Title</th><th>Co-Sponsor</th></tr>";
-				for (var i = 0; i < temp.results.length; i++) {
-					forExp += "<tr><td id=\"billName"+i+"\" class=\"bill\">"+temp.results[i].official_title+"</td><td>"+temp.results[i].cosponsors_count+"</td><td><input type=\"button\" value=\"Add Bill\" class=\"btn btn-sm btn-info\" fore=\"add\" id=\"buttonBA"+i+"\"></tr>";
-				}
-				$('#billsText').html(forExp);
-				for (var i = 0; i < temp.results.length; i++) {
-					$('#legName'+i).data('key', "{\"name\":\""+temp.results[i].title+". "+temp.results[i].first_name+" "+temp.results[i].last_name+"\",\"twitter\":\""+temp.results[i].twitter_id+"\",\"party\":\""+temp.results[i].party+"\"}");
-					$('#buttonA'+i).data('key', "{\"name\":\""+temp.results[i].title+". "+temp.results[i].first_name+" "+temp.results[i].last_name+"\",\"twitter\":\""+temp.results[i].twitter_id+"\",\"party\":\""+temp.results[i].party+"\"}");
-				}
+			complete: function (f) {
+				bioID = JSON.parse(f.responseText).results[0].bioguide_id;
+				$.ajax({
+					url: 'https://congress.api.sunlightfoundation.com/bills?sponsor_id='+bioID+'&apikey=92c8cc16175542298052d24ae42371b8',
+					type: 'GET',
+					complete: function (data) {
+						var temp2 = JSON.parse(data.responseText);
+						var forExp = "<tr><th>Official Bill Title</th><th>Co-Sponsor</th></tr>";
+						for (var i = 0; i < temp2.results.length; i++) {
+							forExp += "<tr><td id=\"billName"+i+"\" class=\"bill\">"+temp2.results[i].official_title+"</td><td>"+temp2.results[i].cosponsors_count+"</td><td><input type=\"button\" value=\"Add Bill\" class=\"btn btn-sm btn-info\" fore=\"add\" id=\"buttonBA"+i+"\"></tr>";
+						}
+						$('#billsText').html(forExp);
+						for (var i = 0; i < temp2.results.length; i++) {
+							$('#buttonBA'+i).data('key', "{\"name\":\""+temp2.results[i].official_title+"\",\"cosponsors\":\""+temp2.results[i].cosponsors_count+"\"}");
+						}
+					}
+				});
 			}
 		});
+
 }
 });
 
