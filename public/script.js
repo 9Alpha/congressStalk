@@ -67,14 +67,14 @@ $("#loginButton").on('click', function (e){
 	});
 });
 
-$("#toSearch").on('click', function (e) {
+$(".toSearch").on('click', function (e) {
 	$('#homePage').hide();
 	$('#loginPage').hide();
 	$('#searchPage').show();
 	$('#billsPage').hide();
 });
 
-$("#goHome").on('click', function (e) {
+$(".goHome").on('click', function (e) {
 	$('#homePage').show();
 	$('#loginPage').hide();
 	$('#searchPage').hide();
@@ -83,7 +83,7 @@ $("#goHome").on('click', function (e) {
 	$('#responseText').html("");
 });
 
-$("#logOut").on('click', function (e) {
+$(".logOut").on('click', function (e) {
 	$('#homePage').hide();
 	$('#loginPage').show();
 	$('#searchPage').hide();
