@@ -73,21 +73,24 @@ app.get('/getLegs/:id', function (req, res) {
 		if(err){
 			console.log("-->getLegs<--------"+err);
 		} else {
-			var temp = [];
-			for (var i = 0; i < rows.length; i++) {
-				db.all('SELECT * FROM Legislators WHERE id = ?', rows[i].legsID, function(err, rows2){
-					if (err){
-						console.log("-->getLegs<--------"+err);
-					} else {
-						temp.push(rows2);
-						if (count === rows.length - 1) {
-							res.send(temp);
+			if (JSON.stringify(rows) !== "[]") {
+				var temp = [];
+				for (var i = 0; i < rows.length; i++) {
+					db.all('SELECT * FROM Legislators WHERE id = ?', rows[i].legsID, function(err, rows2){
+						if (err){
+							console.log("-->getLegs<--------"+err);
+						} else {
+							temp.push(rows2[0]);
+							if (count === rows.length - 1) {
+								res.send(temp);
+							}
+							count++;
 						}
-						count++;
-					}
-				});
+					});
+				}
+			} else {
+				res.send("[]");
 			}
-			
 		}
 	});
 });
@@ -159,6 +162,22 @@ app.post('/addBills/:id', function (req, res) {
 			console.log("-->addBills<--------"+err);
 		} else {
 			res.send("added");
+		}
+	});
+});
+
+app.post('/removeLegs/:id', function (req, res) {
+	db.all('SELECT * FROM Legislators WHERE name = ?', req.body.name, function(err, rows2){
+		if(err){
+			console.log("-->removeLegs<--------"+err);
+		} else {
+			db.run('DELETE FROM legsForUser WHERE userID = ? AND legsID = ? ', req.params.id, rows2[0].id, function (err) {
+				if(err){
+					console.log("-->addLegs<--------"+err);
+				} else {
+					res.send("deleted");
+				}
+			});
 		}
 	});
 });
