@@ -7,6 +7,7 @@ var currentID;
 $(document).ready(function (e) {
 	$('#searchPage').hide();
 	$('#homePage').hide();
+	$('#billsPage').hide();
 	$('#homeText').html("");
 });
 
@@ -70,12 +71,14 @@ $("#toSearch").on('click', function (e) {
 	$('#homePage').hide();
 	$('#loginPage').hide();
 	$('#searchPage').show();
+	$('#billsPage').hide();
 });
 
 $("#goHome").on('click', function (e) {
 	$('#homePage').show();
 	$('#loginPage').hide();
 	$('#searchPage').hide();
+	$('#billsPage').hide();
 	document.getElementById("OtherThing").reset();
 	$('#responseText').html("");
 });
@@ -84,6 +87,7 @@ $("#logOut").on('click', function (e) {
 	$('#homePage').hide();
 	$('#loginPage').show();
 	$('#searchPage').hide();
+	$('#billsPage').hide();
 	$('#homeText').html("");
 	currentID = -1; 
 });
@@ -114,10 +118,11 @@ $("#searchButton").on('click', function (e) {
 						} else {
 							color = "green"
 						}
-						forExp += "<tr><td><a id=\"legPage\">"+temp.results[i].title+". "+temp.results[i].first_name+" "+temp.results[i].last_name+"</a></td><td>"+temp.results[i].party+"</td><td><a id=\""+color+"\" href=\"https://twitter.com/"+temp.results[i].twitter_id+"\" target=\"_blank\">"+temp.results[i].twitter_id+"</a></td><td><input type=\"button\" value=\"Add Legislator\" class=\"btn btn-sm btn-info\" fore=\"add\" id=\"buttonA"+i+"\"></tr>";
+						forExp += "<tr><td><a id=\"legName"+i+"\" class=\"legPage\">"+temp.results[i].title+". "+temp.results[i].first_name+" "+temp.results[i].last_name+"</a></td><td>"+temp.results[i].party+"</td><td><a id=\""+color+"\" href=\"https://twitter.com/"+temp.results[i].twitter_id+"\" target=\"_blank\">"+temp.results[i].twitter_id+"</a></td><td><input type=\"button\" value=\"Add Legislator\" class=\"btn btn-sm btn-info\" fore=\"add\" id=\"buttonA"+i+"\"></tr>";
 					}
 					$('#responseText').html(forExp);
 					for (var i = 0; i < temp.results.length; i++) {
+						$('#legName'+i).data('key', "{\"name\":\""+temp.results[i].title+". "+temp.results[i].first_name+" "+temp.results[i].last_name+"\",\"twitter\":\""+temp.results[i].twitter_id+"\",\"party\":\""+temp.results[i].party+"\"}");
 						$('#buttonA'+i).data('key', "{\"name\":\""+temp.results[i].title+". "+temp.results[i].first_name+" "+temp.results[i].last_name+"\",\"twitter\":\""+temp.results[i].twitter_id+"\",\"party\":\""+temp.results[i].party+"\"}");
 					}
 				}
@@ -183,7 +188,33 @@ $('#responseText').on('click', function(e) {
 			}
 		});
 		
-	}
+	} else if (e.target.className === "legPage") {
+		var data = JSON.parse($('#'+e.target.id).data('key'));
+		var temp = {
+			"name": data.name,
+			"twitter": data.twitter,
+			"party": data.party
+		};
+		$('#searchPage').hide();
+		$('#billsPage').show();
+		$('#nameOfLeg').text("The Bills of "+temp.name);
+		$.ajax({
+			url: 'https://congress.api.sunlightfoundation.com/bills?sponsor_id=R000053&apikey=92c8cc16175542298052d24ae42371b8',
+			type: 'GET',
+			complete: function (data) {
+				var temp = JSON.parse(data.responseText);
+				var forExp = "<tr><th>Official Bill Title</th><th>Co-Sponsor</th></tr>";
+				for (var i = 0; i < temp.results.length; i++) {
+					forExp += "<tr><td id=\"billName"+i+"\" class=\"bill\">"+temp.results[i].official_title+"</td><td>"+temp.results[i].cosponsors_count+"</td><td><input type=\"button\" value=\"Add Bill\" class=\"btn btn-sm btn-info\" fore=\"add\" id=\"buttonBA"+i+"\"></tr>";
+				}
+				$('#billsText').html(forExp);
+				for (var i = 0; i < temp.results.length; i++) {
+					$('#legName'+i).data('key', "{\"name\":\""+temp.results[i].title+". "+temp.results[i].first_name+" "+temp.results[i].last_name+"\",\"twitter\":\""+temp.results[i].twitter_id+"\",\"party\":\""+temp.results[i].party+"\"}");
+					$('#buttonA'+i).data('key', "{\"name\":\""+temp.results[i].title+". "+temp.results[i].first_name+" "+temp.results[i].last_name+"\",\"twitter\":\""+temp.results[i].twitter_id+"\",\"party\":\""+temp.results[i].party+"\"}");
+				}
+			}
+		});
+}
 });
 
 
@@ -204,11 +235,12 @@ fillHome = function() {
 				} else {
 					color = "green"
 				}
-				forExp += "<tr><td><a id=\"legPage\">"+data[i].name+"</a></td><td>"+data[i].party+"</td><td><a id=\""+color+"\" href=\"https://twitter.com/"+data[i].twitter+"\" target=\"_blank\">"+data[i].twitter+"</a></td><td><input type=\"button\" value=\"Remove Legislator\" class=\"btn btn-sm btn-info\" fore=\"add\" id=\"buttonD"+i+"\"></tr>";
+				forExp += "<tr><td><a id=\"legName"+i+"\" class=\"legPage\">"+data[i].name+"</a></td><td>"+data[i].party+"</td><td><a id=\""+color+"\" href=\"https://twitter.com/"+data[i].twitter+"\" target=\"_blank\">"+data[i].twitter+"</a></td><td><input type=\"button\" value=\"Remove Legislator\" class=\"btn btn-sm btn-info\" fore=\"add\" id=\"buttonD"+i+"\"></tr>";
 			}
 			$('#homeText').html(forExp);
 			for (var i = 0; i < data.length; i++) {
 				$('#buttonD'+i).data('key', "{\"name\":\""+data[i].name+"\",\"twitter\":\""+data[i].twitter+"\",\"party\":\""+data[i].party+"\"}");
+				$('#legName'+i).data('key', "{\"name\":\""+data[i].name+"\",\"twitter\":\""+data[i].twitter+"\",\"party\":\""+data[i].party+"\"}");
 			}
 		}
 	});

@@ -6,7 +6,7 @@ h1, h2 {
 	text-align: center;
 }
 
-#loginPage, #homePage, #searchPage {
+#loginPage, #homePage, #searchPage, #billsPage {
 	width: 40%;
 	margin-left: 30%;
 }
@@ -30,7 +30,7 @@ a {
 	text-decoration: none;
 }
 
-#legPage {
+.legPage {
 	color: black;
 }
 
