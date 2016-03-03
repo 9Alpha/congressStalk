@@ -6,7 +6,22 @@ h1, h2 {
 	text-align: center;
 }
 
-#loginPage, #homePage, #searchPage, #billsPage {
+#loginPage {
+	width: 40%;
+	margin-left: 30%;
+}
+
+#homePage{
+	width: 40%;
+	margin-left: 30%;
+}
+
+#searchPage {
+	width: 40%;
+	margin-left: 30%;
+}
+
+#billsPage {
 	width: 40%;
 	margin-left: 30%;
 }

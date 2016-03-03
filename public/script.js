@@ -127,10 +127,10 @@ $("#searchButton").on('click', function (e) {
 					}
 				}
 			});
-} else {
-	alert("Empty search box");
-}
-}
+		} else {
+			alert("Empty search box");
+		}
+	}
 });
 
 $('#homeText').on('click', function(e) {
@@ -183,8 +183,27 @@ $('#homeText').on('click', function(e) {
 			}
 		});
 
-}
+	}
 });
+
+$('#homeText1').on('click', function(e) {
+	if (e.target.localName === "input") {
+		var data = JSON.parse($('#'+e.target.id).data('key'));
+		var temp = {
+			"name": data.name,
+		};
+		$.ajax({
+			url: '/removeLegs/'+currentID,
+			type: 'POST',
+			data: JSON.stringify(temp),
+			contentType: "application/json",
+			complete: function(f) {
+				fillHome1();
+			}
+		});
+	}
+});
+
 
 $('#responseText').on('click', function(e) {
 	if (e.target.localName === "input") {
@@ -220,7 +239,7 @@ $('#responseText').on('click', function(e) {
 				}
 			}
 		});
-		
+
 	} else if (e.target.className === "legPage") {
 		var data = JSON.parse($('#'+e.target.id).data('key'));
 		var temp = {
@@ -254,10 +273,37 @@ $('#responseText').on('click', function(e) {
 			}
 		});
 
-}
+	}
 });
 
 
+
+fillHome = function() {
+	$.ajax({
+		url: '/getLegs/'+currentID,
+		type: 'GET',
+		complete: function (e) {
+			var data = JSON.parse(e.responseText);
+			var forExp = "<tr><th>Name</th><th>Party</th><th>Twitter</th></tr>";
+			for (var i = 0; i < data.length; i++) {
+				var color = "";
+				if (data[i].party === "R") {
+					color = "red";
+				} else if (data[i].party === "D") {
+					color = "blue";
+				} else {
+					color = "green"
+				}
+				forExp += "<tr><td><a id=\"legName"+i+"\" class=\"legPage\">"+data[i].name+"</a></td><td>"+data[i].party+"</td><td><a id=\""+color+"\" href=\"https://twitter.com/"+data[i].twitter+"\" target=\"_blank\">"+data[i].twitter+"</a></td><td><input type=\"button\" value=\"Remove Legislator\" class=\"btn btn-sm btn-info\" fore=\"add\" id=\"buttonD"+i+"\"></tr>";
+			}
+			$('#homeText').html(forExp);
+			for (var i = 0; i < data.length; i++) {
+				$('#buttonD'+i).data('key', "{\"name\":\""+data[i].name+"\",\"twitter\":\""+data[i].twitter+"\",\"party\":\""+data[i].party+"\"}");
+				$('#legName'+i).data('key', "{\"name\":\""+data[i].name+"\",\"twitter\":\""+data[i].twitter+"\",\"party\":\""+data[i].party+"\"}");
+			}
+		}
+	});
+}
 
 fillHome = function() {
 	$.ajax({
