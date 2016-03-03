@@ -96,22 +96,29 @@ app.get('/getLegs/:id', function (req, res) {
 });
 
 app.get('/getBills/:id', function (req, res) {
+	var count = 0;
 	db.all('SELECT billsID FROM billsForUser WHERE userID = ?', req.params.id, function(err, rows){
 		if(err){
 			console.log("-->getBills<--------"+err);
 		} else {
-			var temp = [];
-			var data = JSON.parse(rows);
-			for (var i = 0; i < data.length; i++) {
-				db.all('SELECT * FROM Bills WHERE id = ?', data[i].legsID, function(err, rows){
-					if(err){
-						console.log("-->getBills<--------"+err);
-					} else {
-						temp.push(rows);
-					}
-				});
+			if (JSON.stringify(rows) !== "[]") {
+				var temp = [];
+				for (var i = 0; i < rows.length; i++) {
+					db.all('SELECT * FROM Bills WHERE id = ?', rows[i].legsID, function(err, rows2){
+						if (err){
+							console.log("-->getBills<--------"+err);
+						} else {
+							temp.push(rows2[0]);
+							if (count === rows.length - 1) {
+								res.send(temp);
+							}
+							count++;
+						}
+					});
+				}
+			} else {
+				res.send("[]");
 			}
-			res.send(temp);
 		}
 	});
 });
@@ -157,11 +164,41 @@ app.post('/addLegs/:id', function (req, res) {
 });
 
 app.post('/addBills/:id', function (req, res) {
-	db.run('INSERT INTO billsForUser (userID, billsID) VALUES (?, ?)', req.params.id, req.body.info, function (err) {
-		if(err){
+	db.all('SELECT * FROM Bills WHERE name = ?', req.body.name, function(err, rows){
+		if (err) {
 			console.log("-->addBills<--------"+err);
 		} else {
-			res.send("added");
+			if (JSON.stringify(rows) !== "[]") {
+				console.log("using bill");
+				db.run('INSERT INTO billsForUser (userID, billsID) VALUES (?, ?)', req.params.id, rows[0].id, function (err) {
+					if(err){
+						console.log("-->addBills<--------"+err);
+					} else {
+						res.send("added");
+					}
+				});
+			} else {
+				console.log("adding bill");
+				db.run('INSERT INTO Bills (name) VALUES (?)', req.body.name, function (err) {
+					if(err){
+						console.log("-->addBills<--------"+err);
+					} else {
+						db.all('SELECT * FROM Bills WHERE name = ?', req.body.name, function(err, rows2){
+							if(err){
+								console.log("-->addBills<--------"+err);
+							} else {
+								db.run('INSERT INTO billsForUser (userID, billsID) VALUES (?, ?)', req.params.id, rows2[0].id, function (err) {
+									if(err){
+										console.log("-->addBills<--------"+err);
+									} else {
+										res.send("added");
+									}
+								});
+							}
+						});
+					}
+				});
+			}
 		}
 	});
 });
@@ -174,6 +211,22 @@ app.post('/removeLegs/:id', function (req, res) {
 			db.run('DELETE FROM legsForUser WHERE userID = ? AND legsID = ? ', req.params.id, rows2[0].id, function (err) {
 				if(err){
 					console.log("-->addLegs<--------"+err);
+				} else {
+					res.send("deleted");
+				}
+			});
+		}
+	});
+});
+
+app.post('/removeBills/:id', function (req, res) {
+	db.all('SELECT * FROM Bills WHERE name = ?', req.body.name, function(err, rows2){
+		if(err){
+			console.log("-->removeBills<--------"+err);
+		} else {
+			db.run('DELETE FROM billsForUser WHERE userID = ? AND billsID = ? ', req.params.id, rows2[0].id, function (err) {
+				if(err){
+					console.log("-->addBills<--------"+err);
 				} else {
 					res.send("deleted");
 				}
