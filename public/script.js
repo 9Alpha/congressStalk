@@ -193,7 +193,7 @@ $('#homeText1').on('click', function(e) {
 			"name": data.name,
 		};
 		$.ajax({
-			url: '/removeLegs/'+currentID,
+			url: '/removeBills/'+currentID,
 			type: 'POST',
 			data: JSON.stringify(temp),
 			contentType: "application/json",
@@ -201,6 +201,42 @@ $('#homeText1').on('click', function(e) {
 				fillHome1();
 			}
 		});
+	}
+});
+
+$('#billsText').on('click', function(e) {
+	if (e.target.localName === "input") {
+		var data = JSON.parse($('#'+e.target.id).data('key'));
+		var temp = {
+			"name": data.name,
+		};
+		$.ajax({
+			url: '/getBills/'+currentID,
+			type: 'GET',
+			complete: function (data1) {
+				var gotData = JSON.parse(data1.responseText);
+				var toAdd = true;
+				for (var i = 0; i < gotData.length; i++) {
+					if (gotData[i].name === temp.name) {
+						toAdd = false;
+						alert("Bill already linked to user");
+						return false;
+					}
+				}
+				if (toAdd) {
+					$.ajax({
+						url: '/addBills/'+currentID,
+						type: 'POST', 
+						data: JSON.stringify(temp),
+						contentType: "application/json",
+						complete: function (data2) {
+							fillHome1();
+						}
+					});
+				}
+			}
+		});
+
 	}
 });
 
@@ -305,28 +341,19 @@ fillHome = function() {
 	});
 }
 
-fillHome = function() {
+fillHome1 = function() {
 	$.ajax({
-		url: '/getLegs/'+currentID,
+		url: '/getBills/'+currentID,
 		type: 'GET',
-		complete: function (e) {
-			var data = JSON.parse(e.responseText);
-			var forExp = "<tr><th>Name</th><th>Party</th><th>Twitter</th></tr>";
-			for (var i = 0; i < data.length; i++) {
-				var color = "";
-				if (data[i].party === "R") {
-					color = "red";
-				} else if (data[i].party === "D") {
-					color = "blue";
-				} else {
-					color = "green"
-				}
-				forExp += "<tr><td><a id=\"legName"+i+"\" class=\"legPage\">"+data[i].name+"</a></td><td>"+data[i].party+"</td><td><a id=\""+color+"\" href=\"https://twitter.com/"+data[i].twitter+"\" target=\"_blank\">"+data[i].twitter+"</a></td><td><input type=\"button\" value=\"Remove Legislator\" class=\"btn btn-sm btn-info\" fore=\"add\" id=\"buttonD"+i+"\"></tr>";
+		complete: function (data) {
+			var temp2 = JSON.parse(data.responseText);
+			var forExp = "<tr><th>Official Bill Title</th></tr>";
+			for (var i = 0; i < temp2.length; i++) {
+				forExp += "<tr><td id=\"billName"+i+"\" class=\"bill\">"+temp2[i].name+"</td><td><input type=\"button\" value=\"Delete Bill\" class=\"btn btn-sm btn-info\" fore=\"add\" id=\"buttonBD"+i+"\"></tr>";
 			}
-			$('#homeText').html(forExp);
-			for (var i = 0; i < data.length; i++) {
-				$('#buttonD'+i).data('key', "{\"name\":\""+data[i].name+"\",\"twitter\":\""+data[i].twitter+"\",\"party\":\""+data[i].party+"\"}");
-				$('#legName'+i).data('key', "{\"name\":\""+data[i].name+"\",\"twitter\":\""+data[i].twitter+"\",\"party\":\""+data[i].party+"\"}");
+			$('#billsText').html(forExp);
+			for (var i = 0; i < temp2.length; i++) {
+				$('#buttonBD'+i).data('key', "{\"name\":\""+temp2[i].name+"\"}");
 			}
 		}
 	});
