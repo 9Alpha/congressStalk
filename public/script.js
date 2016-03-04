@@ -81,6 +81,7 @@ $(".goHome").on('click', function (e) {
 	$('#searchPage').hide();
 	$('#billsPage').hide();
 	document.getElementById("OtherThing").reset();
+	$('#map').attr('src', "");
 	$('#responseText').html("");
 });
 
@@ -91,6 +92,7 @@ $(".logOut").on('click', function (e) {
 	$('#billsPage').hide();
 	$('#homeText').html("");
 	$('#homeText1').html("");
+	$('#map').attr('src', "");
 	currentID = -1; 
 });
 
