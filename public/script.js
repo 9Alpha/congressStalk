@@ -127,10 +127,10 @@ $("#searchButton").on('click', function (e) {
 					}
 				}
 			});
-		} else {
-			alert("Empty search box");
-		}
-	}
+} else {
+	alert("Empty search box");
+}
+}
 });
 
 $('#homeText').on('click', function(e) {
@@ -183,7 +183,7 @@ $('#homeText').on('click', function(e) {
 			}
 		});
 
-	}
+}
 });
 
 $('#homeText1').on('click', function(e) {
@@ -216,6 +216,7 @@ $('#billsText').on('click', function(e) {
 			complete: function (data1) {
 				var gotData = JSON.parse(data1.responseText);
 				var toAdd = true;
+				console.log(data1.responseText);
 				for (var i = 0; i < gotData.length; i++) {
 					if (gotData[i].name === temp.name) {
 						toAdd = false;
@@ -309,7 +310,7 @@ $('#responseText').on('click', function(e) {
 			}
 		});
 
-	}
+}
 });
 
 
