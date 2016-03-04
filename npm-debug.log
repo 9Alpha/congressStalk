@@ -1,0 +1,75 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'link', 'sqlite3' ]
+2 info using npm@2.11.3
+3 info using node@v0.12.7
+4 verbose unbuild node_modules/sqlite3
+5 silly gentlyRm /Users/teacher-admin/se/congressStalk/node_modules/sqlite3 is being purged from base /Users/teacher-admin/se/congressStalk
+6 verbose gentlyRm don't care about contents; nuking /Users/teacher-admin/se/congressStalk/node_modules/sqlite3
+7 verbose link symlinking /usr/local/lib/node_modules/sqlite3 to /Users/teacher-admin/se/congressStalk/node_modules/sqlite3
+8 silly gentlyRm /Users/teacher-admin/se/congressStalk/node_modules/sqlite3 is being purged
+9 verbose gentlyRm don't care about contents; nuking /Users/teacher-admin/se/congressStalk/node_modules/sqlite3
+10 info build /Users/teacher-admin/se/congressStalk/node_modules/sqlite3
+11 info preinstall sqlite3@3.1.1
+12 info linkStuff sqlite3@3.1.1
+13 silly linkStuff sqlite3@3.1.1 has /Users/teacher-admin/se/congressStalk/node_modules as its parent node_modules
+14 verbose linkBins sqlite3@3.1.1
+15 verbose linkMans sqlite3@3.1.1
+16 verbose rebuildBundles sqlite3@3.1.1
+17 verbose rebuildBundles [ '.bin', 'nan', 'node-pre-gyp' ]
+18 verbose rebuild bundle /Users/teacher-admin/se/congressStalk/node_modules/sqlite3/node_modules/node-pre-gyp
+19 info build /Users/teacher-admin/se/congressStalk/node_modules/sqlite3/node_modules/node-pre-gyp
+20 info preinstall node-pre-gyp@0.6.14
+21 info linkStuff node-pre-gyp@0.6.14
+22 silly linkStuff node-pre-gyp@0.6.14 has /Users/teacher-admin/se/congressStalk/node_modules/sqlite3/node_modules as its parent node_modules
+23 verbose linkBins node-pre-gyp@0.6.14
+24 verbose link bins [ { 'node-pre-gyp': './bin/node-pre-gyp' },
+24 verbose link bins   '/Users/teacher-admin/se/congressStalk/node_modules/sqlite3/node_modules/.bin',
+24 verbose link bins   false ]
+25 verbose linkMans node-pre-gyp@0.6.14
+26 verbose rebuildBundles node-pre-gyp@0.6.14
+27 verbose rebuildBundles [ '.bin',
+27 verbose rebuildBundles   'mkdirp',
+27 verbose rebuildBundles   'nopt',
+27 verbose rebuildBundles   'npmlog',
+27 verbose rebuildBundles   'rc',
+27 verbose rebuildBundles   'request',
+27 verbose rebuildBundles   'rimraf',
+27 verbose rebuildBundles   'semver',
+27 verbose rebuildBundles   'tar',
+27 verbose rebuildBundles   'tar-pack' ]
+28 verbose rebuild bundle /Users/teacher-admin/se/congressStalk/node_modules/sqlite3/node_modules/node-pre-gyp/node_modules/mkdirp
+29 silly gentlyRm /Users/teacher-admin/se/congressStalk/node_modules/sqlite3/node_modules/.bin/node-pre-gyp is being purged
+30 verbose gentlyRm don't care about contents; nuking /Users/teacher-admin/se/congressStalk/node_modules/sqlite3/node_modules/.bin/node-pre-gyp
+31 info build /Users/teacher-admin/se/congressStalk/node_modules/sqlite3/node_modules/node-pre-gyp/node_modules/mkdirp
+32 silly vacuum-fs purging /Users/teacher-admin/se/congressStalk/node_modules/sqlite3/node_modules/.bin/node-pre-gyp
+33 info preinstall mkdirp@0.5.1
+34 info linkStuff mkdirp@0.5.1
+35 silly linkStuff mkdirp@0.5.1 has /Users/teacher-admin/se/congressStalk/node_modules/sqlite3/node_modules/node-pre-gyp/node_modules as its parent node_modules
+36 verbose linkBins mkdirp@0.5.1
+37 verbose link bins [ { mkdirp: 'bin/cmd.js' },
+37 verbose link bins   '/Users/teacher-admin/se/congressStalk/node_modules/sqlite3/node_modules/node-pre-gyp/node_modules/.bin',
+37 verbose link bins   false ]
+38 verbose linkMans mkdirp@0.5.1
+39 verbose rebuildBundles mkdirp@0.5.1
+40 verbose rebuildBundles [ 'minimist' ]
+41 silly gentlyRm /Users/teacher-admin/se/congressStalk/node_modules/sqlite3/node_modules/node-pre-gyp/node_modules/.bin/mkdirp is being purged
+42 verbose gentlyRm don't care about contents; nuking /Users/teacher-admin/se/congressStalk/node_modules/sqlite3/node_modules/node-pre-gyp/node_modules/.bin/mkdirp
+43 silly vacuum-fs purging /Users/teacher-admin/se/congressStalk/node_modules/sqlite3/node_modules/node-pre-gyp/node_modules/.bin/mkdirp
+44 verbose stack Error: EACCES, unlink '/Users/teacher-admin/se/congressStalk/node_modules/sqlite3/node_modules/.bin/node-pre-gyp'
+44 verbose stack     at Error (native)
+45 verbose cwd /Users/teacher-admin/se/congressStalk
+46 error Darwin 14.5.0
+47 error argv "node" "/usr/local/bin/npm" "link" "sqlite3"
+48 error node v0.12.7
+49 error npm  v2.11.3
+50 error path /Users/teacher-admin/se/congressStalk/node_modules/sqlite3/node_modules/.bin/node-pre-gyp
+51 error code EACCES
+52 error errno -13
+53 error Error: EACCES, unlink '/Users/teacher-admin/se/congressStalk/node_modules/sqlite3/node_modules/.bin/node-pre-gyp'
+53 error     at Error (native)
+53 error  { [Error: EACCES, unlink '/Users/teacher-admin/se/congressStalk/node_modules/sqlite3/node_modules/.bin/node-pre-gyp']
+53 error   errno: -13,
+53 error   code: 'EACCES',
+53 error   path: '/Users/teacher-admin/se/congressStalk/node_modules/sqlite3/node_modules/.bin/node-pre-gyp' }
+54 error Please try running this command again as root/Administrator.
+55 verbose exit [ -13, true ]

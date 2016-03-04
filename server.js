@@ -1,4 +1,5 @@
-//92c8cc16175542298052d24ae42371b8
+//92c8cc16175542298052d24ae42371b8 -- Sunlight
+//AIzaSyCcrLTZgs6Nu3clcC-wJRhd6ADBC9sVRf8 -- Google
 
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('database.db');
@@ -104,7 +105,7 @@ app.get('/getBills/:id', function (req, res) {
 			if (JSON.stringify(rows) !== "[]") {
 				var temp = [];
 				for (var i = 0; i < rows.length; i++) {
-					db.all('SELECT * FROM Bills WHERE id = ?', rows[i].legsID, function(err, rows2){
+					db.all('SELECT * FROM Bills WHERE id = ?', rows[i].billsID, function(err, rows2){
 						if (err){
 							console.log("-->getBills<--------"+err);
 						} else {

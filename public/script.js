@@ -62,6 +62,7 @@ $("#loginButton").on('click', function (e){
 				document.getElementById("Thing").reset();
 				document.getElementById("OtherThing").reset();
 				fillHome();
+				fillHome1();
 			}
 		}
 	});
@@ -89,6 +90,7 @@ $(".logOut").on('click', function (e) {
 	$('#searchPage').hide();
 	$('#billsPage').hide();
 	$('#homeText').html("");
+	$('#homeText1').html("");
 	currentID = -1; 
 });
 
@@ -103,6 +105,7 @@ $("#searchButton").on('click', function (e) {
 	} else {
 		if ($("#searchInput").val() !== "") {
 			console.log("searching for ->"+$("#searchInput").val()+"<- with id ->"+currentID+"<-");
+			$('#map').attr('src', 'https://maps.googleapis.com/maps/api/staticmap?center='+$("#searchInput").val()+'&size=300x300&maptype=roadmap&key=AIzaSyCcrLTZgs6Nu3clcC-wJRhd6ADBC9sVRf8');
 			$.ajax({
 				url: 'https://congress.api.sunlightfoundation.com/legislators/locate?zip='+$("#searchInput").val()+'&apikey=92c8cc16175542298052d24ae42371b8',
 				type: 'GET',
@@ -216,7 +219,6 @@ $('#billsText').on('click', function(e) {
 			complete: function (data1) {
 				var gotData = JSON.parse(data1.responseText);
 				var toAdd = true;
-				console.log(data1.responseText);
 				for (var i = 0; i < gotData.length; i++) {
 					if (gotData[i].name === temp.name) {
 						toAdd = false;
@@ -350,9 +352,9 @@ fillHome1 = function() {
 			var temp2 = JSON.parse(data.responseText);
 			var forExp = "<tr><th>Official Bill Title</th></tr>";
 			for (var i = 0; i < temp2.length; i++) {
-				forExp += "<tr><td id=\"billName"+i+"\" class=\"bill\">"+temp2[i].name+"</td><td><input type=\"button\" value=\"Delete Bill\" class=\"btn btn-sm btn-info\" fore=\"add\" id=\"buttonBD"+i+"\"></tr>";
+				forExp += "<tr><td id=\"billName"+i+"\" class=\"bill\">"+temp2[i].name+"</td><td><input type=\"button\" value=\"Remove Bill\" class=\"btn btn-sm btn-info\" fore=\"add\" id=\"buttonBD"+i+"\"></tr>";
 			}
-			$('#billsText').html(forExp);
+			$('#homeText1').html(forExp);
 			for (var i = 0; i < temp2.length; i++) {
 				$('#buttonBD'+i).data('key', "{\"name\":\""+temp2[i].name+"\"}");
 			}
